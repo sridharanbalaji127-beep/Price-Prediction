@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexMart - AI Dynamic Pricing E-Commerce</title>
+  
+  <!-- Modern Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- FontAwesome Icons & Chart.js -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+
+
+  <!-- Main Navigation Header -->
+  <header class="main-header">
+    <div class="header-container">
+      <!-- Brand Logo -->
+      <a href="/" class="brand" id="brand-link">
+        <div class="brand-icon">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+          <div class="brand-name">ApexMart</div>
+          <div class="brand-tag">Dynamic Pricing Engine</div>
+        </div>
+      </a>
+
+      <!-- Search Input -->
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input 
+          type="text" 
+          id="global-search" 
+          class="search-input" 
+          placeholder="Search 1,200+ products by title, category, ID or keyword..."
+          oninput="handleSearch(this.value)"
+        >
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="header-actions">
+
+
+        <button class="btn-header-action btn-ai-portal" onclick="openBatchOptimizerModal()" title="Optimize Store Revenue">
+          <i class="fa-solid fa-wand-magic-sparkles"></i>
+          <span>Store Optimizer</span>
+        </button>
+
+        <button class="btn-header-action cart-btn" onclick="toggleCartDrawer()" title="View Shopping Cart">
+          <i class="fa-solid fa-cart-shopping"></i>
+          <span class="cart-badge" id="cart-counter">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Deals Slideshow / Hero Carousel -->
+  <section class="deals-carousel-section" aria-label="Best Deals of the Day">
+    <div class="deals-carousel" id="deals-carousel">
+
+      <!-- Slide 1: Flash Sale -->
+      <div class="deal-slide active" style="background: linear-gradient(120deg, #1e1b4b 0%, #4338ca 60%, #7c3aed 100%);">
+        <div class="deal-slide-inner">
+          <div class="deal-slide-text">
+            <div class="deal-eyebrow"><i class="fa-solid fa-fire"></i> Best Deals of the Day</div>
+            <h2 class="deal-title">Sony WH-1000XM5<br><span>Noise-Canceling Headphones</span></h2>
+            <p class="deal-desc">Industry-leading dual-processor ANC • 30-hour battery • LDAC lossless audio</p>
+            <div class="deal-price-row">
+              <span class="deal-original-price">$399.99</span>
+              <span class="deal-current-price">$349.99</span>
+              <span class="deal-discount-badge">SAVE $50</span>
+            </div>
+            <div class="deal-cta-row">
+              <button class="deal-cta-btn" onclick="filterByCategory('Electronics',null); document.getElementById('global-search').value='Sony WH'; handleSearch('Sony WH');">
+                <i class="fa-solid fa-bolt"></i> Shop Now
+              </button>
+              <div class="deal-timer" id="timer-1">
+                <i class="fa-solid fa-clock"></i> Ends in <span class="timer-val" id="t1-h">05</span>:<span class="timer-val" id="t1-m">42</span>:<span class="timer-val" id="t1-s">17</span>
+              </div>
+            </div>
+          </div>
+          <div class="deal-slide-img">
+            <img src="https://images.pexels.com/photos/3394650/pexels-photo-3394650.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Sony Headphones">
+            <div class="deal-img-badge">⭐ 4.9 · 3,420 Reviews</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 2: Editor's Pick -->
+      <div class="deal-slide" style="background: linear-gradient(120deg, #0f172a 0%, #0369a1 60%, #0ea5e9 100%);">
+        <div class="deal-slide-inner">
+          <div class="deal-slide-text">
+            <div class="deal-eyebrow"><i class="fa-solid fa-star"></i> Editor's Pick · Flash Deal</div>
+            <h2 class="deal-title">Breville Barista Touch<br><span>Espresso Machine</span></h2>
+            <p class="deal-desc">Touchscreen interface • ThermoJet 3s heat-up • Auto microfoam milk texturing</p>
+            <div class="deal-price-row">
+              <span class="deal-original-price">$799.95</span>
+              <span class="deal-current-price">$699.95</span>
+              <span class="deal-discount-badge">SAVE $100</span>
+            </div>
+            <div class="deal-cta-row">
+              <button class="deal-cta-btn" onclick="filterByCategory('Home & Kitchen',null); document.getElementById('global-search').value='Breville'; handleSearch('Breville');">
+                <i class="fa-solid fa-bolt"></i> Shop Now
+              </button>
+              <div class="deal-timer">
+                <i class="fa-solid fa-clock"></i> Ends in <span class="timer-val" id="t2-h">03</span>:<span class="timer-val" id="t2-m">15</span>:<span class="timer-val" id="t2-s">44</span>
+              </div>
+            </div>
+          </div>
+          <div class="deal-slide-img">
+            <img src="https://images.pexels.com/photos/324028/pexels-photo-324028.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Breville Espresso">
+            <div class="deal-img-badge">🔥 Best Seller · 3,400 Reviews</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 3: Trending -->
+      <div class="deal-slide" style="background: linear-gradient(120deg, #064e3b 0%, #047857 55%, #10b981 100%);">
+        <div class="deal-slide-inner">
+          <div class="deal-slide-text">
+            <div class="deal-eyebrow"><i class="fa-solid fa-arrow-trend-up"></i> Trending Now · Top Rated</div>
+            <h2 class="deal-title">Logitech MX Master 3S<br><span>Performance Mouse</span></h2>
+            <p class="deal-desc">8K DPI glass tracking • Ultra-fast MagSpeed scroll • Quiet clicks • Multi-OS</p>
+            <div class="deal-price-row">
+              <span class="deal-original-price">$99.99</span>
+              <span class="deal-current-price">$84.99</span>
+              <span class="deal-discount-badge">SAVE $15</span>
+            </div>
+            <div class="deal-cta-row">
+              <button class="deal-cta-btn" onclick="filterByCategory('Electronics',null); document.getElementById('global-search').value='Logitech'; handleSearch('Logitech');">
+                <i class="fa-solid fa-bolt"></i> Shop Now
+              </button>
+              <div class="deal-timer">
+                <i class="fa-solid fa-clock"></i> Ends in <span class="timer-val" id="t3-h">07</span>:<span class="timer-val" id="t3-m">58</span>:<span class="timer-val" id="t3-s">02</span>
+              </div>
+            </div>
+          </div>
+          <div class="deal-slide-img">
+            <img src="https://images.pexels.com/photos/2115257/pexels-photo-2115257.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Logitech Mouse">
+            <div class="deal-img-badge">🚀 Trending · 5,120 Reviews</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Slide 4: Luxury Pick -->
+      <div class="deal-slide" style="background: linear-gradient(120deg, #292524 0%, #78350f 55%, #d97706 100%);">
+        <div class="deal-slide-inner">
+          <div class="deal-slide-text">
+            <div class="deal-eyebrow"><i class="fa-solid fa-gem"></i> Luxury Edition · Limited Stock</div>
+            <h2 class="deal-title">Dyson V15 Detect<br><span>Cordless Vacuum</span></h2>
+            <p class="deal-desc">Laser illumination • Piezoelectric auto-suction • 60-min runtime • LCD counter</p>
+            <div class="deal-price-row">
+              <span class="deal-original-price">$649.00</span>
+              <span class="deal-current-price">$569.00</span>
+              <span class="deal-discount-badge">SAVE $80</span>
+            </div>
+            <div class="deal-cta-row">
+              <button class="deal-cta-btn" onclick="filterByCategory('Home & Kitchen',null); document.getElementById('global-search').value='Dyson'; handleSearch('Dyson');">
+                <i class="fa-solid fa-bolt"></i> Shop Now
+              </button>
+              <div class="deal-timer">
+                <i class="fa-solid fa-clock"></i> Ends in <span class="timer-val" id="t4-h">01</span>:<span class="timer-val" id="t4-m">29</span>:<span class="timer-val" id="t4-s">55</span>
+              </div>
+            </div>
+          </div>
+          <div class="deal-slide-img">
+            <img src="https://images.pexels.com/photos/4108714/pexels-photo-4108714.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Dyson Vacuum">
+            <div class="deal-img-badge">⭐ 4.9 · 2,100 Reviews</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Carousel Controls -->
+    <button class="carousel-nav carousel-prev" id="carousel-prev" onclick="carouselPrev()" aria-label="Previous">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="carousel-nav carousel-next" id="carousel-next" onclick="carouselNext()" aria-label="Next">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+
+    <!-- Dot Indicators -->
+    <div class="carousel-dots" id="carousel-dots">
+      <button class="carousel-dot active" onclick="carouselGoTo(0)" aria-label="Slide 1"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(1)" aria-label="Slide 2"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(2)" aria-label="Slide 3"></button>
+      <button class="carousel-dot" onclick="carouselGoTo(3)" aria-label="Slide 4"></button>
+    </div>
+  </section>
+
+  <!-- Filter & Sorting Bar -->
+  <section class="filter-section">
+    <div class="filter-bar">
+      <!-- Category Pills -->
+      <div class="category-pills" id="category-pills-container">
+        <button class="category-pill active" onclick="filterByCategory('All', this)">
+          All Categories <span class="pill-count" id="count-all">...</span>
+        </button>
+        <button class="category-pill" onclick="filterByCategory('Electronics', this)">
+          <i class="fa-solid fa-headphones-simple"></i> Electronics <span class="pill-count" id="count-electronics">...</span>
+        </button>
+        <button class="category-pill" onclick="filterByCategory('Books', this)">
+          <i class="fa-solid fa-book"></i> Books <span class="pill-count" id="count-books">...</span>
+        </button>
+        <button class="category-pill" onclick="filterByCategory('Clothing', this)">
+          <i class="fa-solid fa-shirt"></i> Clothing <span class="pill-count" id="count-clothing">...</span>
+        </button>
+        <button class="category-pill" onclick="filterByCategory('Home & Kitchen', this)">
+          <i class="fa-solid fa-kitchen-set"></i> Home &amp; Kitchen <span class="pill-count" id="count-home">...</span>
+        </button>
+      </div>
+
+      <!-- Sorting & View Controls -->
+      <div class="sort-and-view">
+        <label for="sort-select" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">Sort By:</label>
+        <select id="sort-select" class="sort-select" onchange="handleSort(this.value)">
+          <option value="default">Featured / Default</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="rating_desc">Rating: Highest First (5★ &rarr; 1★)</option>
+          <option value="rating_asc">Rating: Lowest First (1★ &rarr; 5★)</option>
+          <option value="discount">Biggest Discount</option>
+        </select>
+      </div>
+    </div>
+  </section>
+
+  <!-- Product Catalog Grid -->
+  <main class="catalog-section">
+    <div class="section-header">
+      <div>
+        <h2 class="section-title" id="catalog-heading">Featured Products</h2>
+        <p class="section-subtitle" id="catalog-count-label">Loading catalog items...</p>
+      </div>
+      <div>
+        <button class="btn-header-action" style="font-size: 0.8rem; padding: 6px 12px;" onclick="resetAllStorePrices()">
+          <i class="fa-solid fa-rotate-left"></i> Reset Dynamic Prices
+        </button>
+      </div>
+    </div>
+
+    <!-- Grid Container -->
+    <div class="products-grid" id="products-grid">
+      <!-- Dynamically Populated by app.js -->
+      <div style="grid-column: 1/-1; text-align: center; padding: 60px;">
+        <i class="fa-solid fa-spinner fa-spin fa-2x" style="color: var(--primary);"></i>
+        <p style="margin-top: 12px; color: var(--text-muted);">Loading catalog and ML inference engine...</p>
+      </div>
+    </div>
+
+    <!-- Pagination Controls -->
+    <div class="pagination-container" id="pagination-controls">
+      <!-- Dynamically generated page buttons -->
+    </div>
+  </main>
+
+  <!-- AI DYNAMIC PRICING MODAL -->
+  <div class="modal-backdrop" id="pricing-modal-backdrop" onclick="handleBackdropClick(event)">
+    <div class="pricing-modal" id="pricing-modal">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon">
+            <i class="fa-solid fa-wand-magic-sparkles"></i>
+          </div>
+          <div>
+            <div class="modal-title">AI Dynamic Pricing Intelligence</div>
+            <div class="modal-subtitle">Traditional ML Demand Elasticity &amp; Expected Revenue Optimization</div>
+          </div>
+        </div>
+        <button class="btn-close-modal" onclick="closePricingModal()" title="Close Modal">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (2 Columns) -->
+      <div class="modal-body">
+        
+        <!-- LEFT COLUMN: Product Overview, Recommendation & Charts -->
+        <div class="left-col">
+          <!-- Product Summary -->
+          <div class="pricing-overview-card">
+            <div class="product-summary-header">
+              <img id="modal-product-img" src="" alt="Product" class="modal-prod-img">
+              <div style="flex: 1;">
+                <div class="modal-prod-category" id="modal-product-category">ELECTRONICS</div>
+                <div class="modal-prod-name" id="modal-product-name">Product Name</div>
+                <div style="display: flex; gap: 12px; align-items: center; margin-top: 4px; font-size: 0.82rem; color: var(--text-muted); flex-wrap: wrap;">
+                  <span>Base Price: <strong id="modal-base-price" style="color: var(--dark);">$0.00</strong></span>
+                  <span>Current Discount: <strong id="modal-base-discount" style="color: var(--accent);">$0.00</strong></span>
+                  <span id="modal-rating-stars" style="color: #d97706;"><i class="fa-solid fa-star"></i> 4.8</span>
+                </div>
+                <div style="display: flex; gap: 8px; align-items: center; margin-top: 8px; flex-wrap: wrap;" id="modal-badges-row">
+                  <span id="modal-stock-badge"></span>
+                  <span id="modal-cc-badge"></span>
+                </div>
+                <div id="modal-variants-row" style="margin-top: 8px; display: none;"></div>
+              </div>
+            </div>
+
+            <!-- AI Recommendation Hero Card -->
+            <div class="recommendation-hero">
+              <div class="rec-badge-pill">
+                <i class="fa-solid fa-bolt"></i> AI Optimal Price Recommendation
+              </div>
+              
+              <div class="rec-comparison-grid">
+                <!-- Current Price Box -->
+                <div class="rec-metric-box">
+                  <div class="rec-label">Current Catalog Price</div>
+                  <div class="rec-val" id="rec-current-price">$0.00</div>
+                  <div class="rec-subtext">
+                    Prob: <span id="rec-current-prob" style="font-weight: 700; color: #cbd5e1;">0%</span> &bull; 
+                    Exp. Rev: <span id="rec-current-rev" style="font-weight: 700; color: #cbd5e1;">$0.00</span>
+                  </div>
+                </div>
+
+                <!-- Optimal Recommended Price Box -->
+                <div class="rec-metric-box highlight">
+                  <div class="rec-label">AI Recommended Price</div>
+                  <div class="rec-val optimal" id="rec-optimal-price">$0.00</div>
+                  <div class="rec-subtext">
+                    Prob: <span id="rec-optimal-prob" style="font-weight: 700; color: #38bdf8;">0%</span> &bull; 
+                    Exp. Rev: <span id="rec-optimal-rev" style="font-weight: 700; color: #38bdf8;">$0.00</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lift & Rationale -->
+              <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                <span style="font-size: 0.82rem; font-weight: 600; color: #a5b4fc;">Strategy: <span id="rec-strategy" style="color: white;">Margin Expansion</span></span>
+                <span class="badge-tag badge-green" id="rec-uplift-badge" style="font-size: 0.78rem;">+18.4% Expected Revenue Lift</span>
+              </div>
+              
+              <div class="rec-rationale" id="rec-rationale-text">
+                Calculating elasticity curve...
+              </div>
+            </div>
+
+            <!-- Dynamic Chart Visualization -->
+            <div class="chart-card">
+              <div class="chart-header">
+                <div class="chart-title">
+                  <i class="fa-solid fa-chart-area" style="color: var(--primary);"></i>
+                  <span id="chart-main-title">Expected Revenue Curve ($ vs Price)</span>
+                </div>
+                <div class="chart-tabs">
+                  <button class="chart-tab-btn active" id="tab-revenue" onclick="switchChartMode('revenue')">Expected Revenue</button>
+                  <button class="chart-tab-btn" id="tab-probability" onclick="switchChartMode('probability')">Purchase Probability</button>
+                </div>
+              </div>
+              <div class="chart-canvas-wrapper">
+                <canvas id="pricingChart"></canvas>
+              </div>
+            </div>
+
+            <!-- Tested Price Points Table -->
+            <div class="table-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <div style="font-size: 0.9rem; font-weight: 700; color: var(--dark);">
+                  <i class="fa-solid fa-table-list" style="color: var(--primary);"></i> Tested Price Points
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted);" id="tested-points-count">15 Price Variations Evaluated</span>
+              </div>
+              <div class="table-wrapper">
+                <table class="price-table">
+                  <thead>
+                    <tr>
+                      <th>Candidate Price</th>
+                      <th>Discount</th>
+                      <th>Effective Price</th>
+                      <th>Purchase Prob.</th>
+                      <th>Expected Revenue</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tested-prices-tbody">
+                    <!-- Populated dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- RIGHT COLUMN: ML Model Selection & Demographic Simulation Sandbox -->
+        <div class="right-col">
+          <div class="controls-panel">
+            
+            <!-- ML Model Selection Card -->
+            <div class="control-card">
+              <div class="control-card-title">
+                <i class="fa-solid fa-diagram-project" style="color: var(--primary);"></i>
+                <span>ML Algorithm Selection</span>
+              </div>
+              <div class="control-card-subtitle">
+                Traditional Machine Learning models trained on consumer purchase behavior
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="ml-model-select">Active Classifier:</label>
+                <select id="ml-model-select" class="form-select" onchange="recalculateDynamicPrice()">
+                  <option value="Random Forest" selected>🌲 Random Forest Classifier (Recommended)</option>
+                  <option value="Logistic Regression">📈 Logistic Regression (Sigmoidal Elasticity)</option>
+                  <option value="Decision Tree">🌿 Decision Tree Classifier (Rule-Based)</option>
+                </select>
+              </div>
+
+              <div class="model-info-box" id="model-info-box">
+                <div class="model-info-title">
+                  <i class="fa-solid fa-circle-info"></i> <span id="model-badge-name">Random Forest Classifier</span>
+                </div>
+                <div class="model-info-desc" id="model-badge-desc">
+                  Ensemble of 120 trees capturing price elasticity, customer age, and rating non-linearities.
+                </div>
+              </div>
+            </div>
+
+            <!-- Customer Simulation Sandbox -->
+            <div class="control-card">
+              <div class="control-card-title">
+                <i class="fa-solid fa-sliders" style="color: var(--secondary);"></i>
+                <span>Demographic &amp; Market Simulation</span>
+              </div>
+              <div class="control-card-subtitle">
+                Adjust customer segments in real-time to see how elasticity and optimal price adjust
+              </div>
+
+              <!-- Customer Age Slider -->
+              <div class="form-group">
+                <div class="form-label">
+                  <span>Customer Age:</span>
+                  <span class="form-val-display" id="val-age">38 yrs</span>
+                </div>
+                <input type="range" class="form-range" id="sim-age" min="18" max="75" value="38" oninput="document.getElementById('val-age').textContent = this.value + ' yrs'; recalculateDynamicPrice();">
+              </div>
+
+              <!-- Review Rating Slider -->
+              <div class="form-group">
+                <div class="form-label">
+                  <span>Product Review Rating:</span>
+                  <span class="form-val-display" id="val-rating">4.8 ★</span>
+                </div>
+                <input type="range" class="form-range" id="sim-rating" min="1" max="5" step="1" value="5" oninput="document.getElementById('val-rating').textContent = this.value + ' ★'; recalculateDynamicPrice();">
+              </div>
+
+              <!-- Gender & Payment Method -->
+              <div class="grid-2col">
+                <div class="form-group">
+                  <label class="form-label" for="sim-gender">Customer Gender:</label>
+                  <select id="sim-gender" class="form-select" onchange="recalculateDynamicPrice()">
+                    <option value="Male" selected>Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="sim-payment">Payment Method:</label>
+                  <select id="sim-payment" class="form-select" onchange="recalculateDynamicPrice()">
+                    <option value="Credit Card" selected>Credit Card</option>
+                    <option value="Debit Card">Debit Card</option>
+                    <option value="Net Banking">Net Banking</option>
+                    <option value="PayPal">PayPal</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Shipping Type & Exploration Range -->
+              <div class="grid-2col">
+                <div class="form-group">
+                  <label class="form-label" for="sim-shipping">Shipping Speed:</label>
+                  <select id="sim-shipping" class="form-select" onchange="recalculateDynamicPrice()">
+                    <option value="Express" selected>Express Shipping</option>
+                    <option value="Standard">Standard Shipping</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="sim-range">Price Scope:</label>
+                  <select id="sim-range" class="form-select" onchange="recalculateDynamicPrice()">
+                    <option value="0.3">±30% Range</option>
+                    <option value="0.45" selected>±45% Range</option>
+                    <option value="0.6">±60% Range</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- Mathematical Formulation Callout -->
+            <div class="control-card" style="background: var(--bg-subtle);">
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--dark); margin-bottom: 6px;">
+                <i class="fa-solid fa-calculator" style="color: var(--primary);"></i> Dynamic Pricing Formula
+              </div>
+              <p style="font-size: 0.78rem; color: var(--text-muted); line-height: 1.5;">
+                <strong>Expected Revenue:</strong><br>
+                <code style="background: white; padding: 2px 6px; border-radius: 4px; color: var(--primary); display: block; margin: 4px 0;">E[Revenue](P) = (P - Discount) × P̂(Purchase | P, X)</code>
+                The recommendation engine evaluates candidate prices across customer profiles and picks <code style="color: #059669; font-weight: 700;">P* = argmax E[Revenue](P)</code>.
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-footer">
+        <button class="btn-header-action" onclick="closePricingModal()">
+          <i class="fa-solid fa-arrow-left"></i> Back to Store
+        </button>
+        <button class="btn-apply-dynamic-price" id="btn-apply-price" onclick="applyDynamicPriceToStore()">
+          <i class="fa-solid fa-check"></i>
+          <span>Apply Recommended Price to Storefront</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODEL METRICS & ARCHITECTURE MODAL -->
+  <div class="modal-backdrop" id="metrics-modal-backdrop" onclick="handleBackdropClick(event)">
+    <div class="pricing-modal" style="max-width: 840px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon" style="background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%);">
+            <i class="fa-solid fa-microchip"></i>
+          </div>
+          <div>
+            <div class="modal-title">ML Model Benchmarks &amp; Architecture</div>
+            <div class="modal-subtitle">Comparison of Traditional Machine Learning Classifiers</div>
+          </div>
+        </div>
+        <button class="btn-close-modal" onclick="closeModelMetricsModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      
+      <div style="padding: 24px 28px;">
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 16px;">
+          All models are trained strictly using <strong>traditional Machine Learning</strong> (Scikit-Learn). Stratified 80/20 train-test split on 2,044 customer purchase transactions.
+        </p>
+
+        <table class="benchmark-table">
+          <thead>
+            <tr>
+              <th>Model Architecture</th>
+              <th>Accuracy</th>
+              <th>Precision</th>
+              <th>Recall</th>
+              <th>F1-Score</th>
+              <th>ROC-AUC</th>
+            </tr>
+          </thead>
+          <tbody id="metrics-tbody">
+            <!-- Dynamically injected -->
+          </tbody>
+        </table>
+
+        <div style="margin-top: 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px;">
+          <div style="background: var(--bg-subtle); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="font-weight: 700; color: var(--dark); font-size: 0.88rem;">🌲 Random Forest</div>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">
+              Ensemble with 120 decision trees. Captures cross-feature pricing nonlinearities.
+            </p>
+          </div>
+          <div style="background: var(--bg-subtle); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="font-weight: 700; color: var(--dark); font-size: 0.88rem;">📈 Logistic Regression</div>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">
+              Standardized linear logits with sigmoid activation for smooth demand curve slopes.
+            </p>
+          </div>
+          <div style="background: var(--bg-subtle); padding: 16px; border-radius: var(--radius-md); border: 1px solid var(--border-light);">
+            <div style="font-weight: 700; color: var(--dark); font-size: 0.88rem;">🌿 Decision Tree</div>
+            <p style="font-size: 0.78rem; color: var(--text-muted); margin-top: 4px;">
+              Max-depth 5 hierarchical tree splits based on price thresholds and review rating.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <div></div>
+        <button class="btn-header-action" onclick="closeModelMetricsModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STORE-WIDE BATCH OPTIMIZER MODAL -->
+  <div class="modal-backdrop" id="batch-modal-backdrop" onclick="handleBackdropClick(event)">
+    <div class="pricing-modal" style="max-width: 960px;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon" style="background: linear-gradient(135deg, #10b981 0%, #059669 100%);">
+            <i class="fa-solid fa-chart-pie"></i>
+          </div>
+          <div>
+            <div class="modal-title">Store-Wide Dynamic Pricing Optimization</div>
+            <div class="modal-subtitle">AI Portfolio Revenue Simulation Across Catalog Products</div>
+          </div>
+        </div>
+        <button class="btn-close-modal" onclick="closeBatchOptimizerModal()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div style="padding: 24px 28px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 20px;">
+          <div style="background: var(--bg-subtle); padding: 18px; border-radius: var(--radius-md); text-align: center; border: 1px solid var(--border-light);">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-muted); font-weight: 600;">Baseline Expected Revenue</div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--dark); margin-top: 4px;" id="batch-baseline-rev">$0.00</div>
+          </div>
+          <div style="background: rgba(16, 185, 129, 0.1); padding: 18px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(16, 185, 129, 0.3);">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: #065f46; font-weight: 600;">Optimized AI Revenue</div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: #059669; margin-top: 4px;" id="batch-optimal-rev">$0.00</div>
+          </div>
+          <div style="background: rgba(79, 70, 229, 0.1); padding: 18px; border-radius: var(--radius-md); text-align: center; border: 1px solid rgba(79, 70, 229, 0.3);">
+            <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--primary); font-weight: 600;">Total Portfolio Uplift</div>
+            <div style="font-size: 1.6rem; font-weight: 800; color: var(--primary); margin-top: 4px;" id="batch-lift-pct">+0.0%</div>
+          </div>
+        </div>
+
+        <div class="table-wrapper" style="max-height: 320px;">
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Current Price</th>
+                <th>AI Optimal Price</th>
+                <th>Conversion Shift</th>
+                <th>Revenue Lift</th>
+                <th>Strategy</th>
+              </tr>
+            </thead>
+            <tbody id="batch-tbody">
+              <!-- Populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-header-action" onclick="closeBatchOptimizerModal()">Close</button>
+        <button class="btn-apply-dynamic-price" onclick="applyAllBatchPrices()">
+          <i class="fa-solid fa-wand-magic-sparkles"></i> Apply All AI Prices to Store
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SHOPPING CART SLIDE-OUT DRAWER -->
+  <div class="modal-backdrop" id="cart-drawer-backdrop" onclick="handleBackdropClick(event)">
+    <div class="pricing-modal" style="max-width: 440px; height: 100vh; max-height: 100vh; border-radius: 0; margin-left: auto; margin-right: 0;">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <div class="modal-icon" style="background: var(--dark);">
+            <i class="fa-solid fa-bag-shopping"></i>
+          </div>
+          <div>
+            <div class="modal-title">Shopping Cart</div>
+            <div class="modal-subtitle" id="cart-items-count">0 items</div>
+          </div>
+        </div>
+        <button class="btn-close-modal" onclick="toggleCartDrawer()">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div style="padding: 20px; flex: 1; overflow-y: auto;" id="cart-items-list">
+        <!-- Cart Items -->
+        <div style="text-align: center; padding: 40px 20px; color: var(--text-muted);">
+          <i class="fa-solid fa-cart-shopping fa-3x" style="color: var(--border-hover); margin-bottom: 12px;"></i>
+          <p>Your shopping cart is empty.</p>
+        </div>
+      </div>
+
+      <div style="padding: 20px; border-top: 1px solid var(--border-light); background: var(--bg-subtle);">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.9rem;">
+          <span>Subtotal:</span>
+          <strong id="cart-subtotal">$0.00</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-bottom: 16px; font-size: 0.8rem; color: var(--text-muted);">
+          <span>Dynamic Price Savings:</span>
+          <span style="color: var(--accent); font-weight: 700;" id="cart-savings">$0.00</span>
+        </div>
+        <button class="btn-header-action btn-ai-portal" style="width: 100%; justify-content: center; padding: 12px;" onclick="simulateCheckout()">
+          <i class="fa-solid fa-lock"></i> Checkout Securely
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification System -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div>
+        <div class="footer-brand-title">ApexMart AI</div>
+        <p class="footer-desc">
+          State-of-the-art dynamic pricing platform leveraging traditional machine learning to optimize price elasticity and expected revenue in real-time.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-heading">ML Algorithms</div>
+        <ul class="footer-links">
+          <li><a href="javascript:void(0)" onclick="openModelMetricsModal()">Random Forest Classifier</a></li>
+          <li><a href="javascript:void(0)" onclick="openModelMetricsModal()">Logistic Regression</a></li>
+          <li><a href="javascript:void(0)" onclick="openModelMetricsModal()">Decision Tree</a></li>
+          <li><a href="javascript:void(0)" onclick="openModelMetricsModal()">ROC-AUC Benchmarks</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-heading">Product Categories</div>
+        <ul class="footer-links">
+          <li><a href="javascript:void(0)" onclick="filterByCategory('Electronics')">Electronics</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByCategory('Books')">Books</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByCategory('Clothing')">Clothing</a></li>
+          <li><a href="javascript:void(0)" onclick="filterByCategory('Home & Kitchen')">Home &amp; Kitchen</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="footer-heading">Hackathon Demo</div>
+        <ul class="footer-links">
+          <li><a href="javascript:void(0)" onclick="openBatchOptimizerModal()">Store-Wide Simulation</a></li>
+          <li><a href="javascript:void(0)" onclick="resetAllStorePrices()">Reset Store Baseline</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div>&copy; 2026 ApexMart AI &bull; Built with Traditional ML for Hackathon Presentation</div>
+      <div>Designed for Real-World E-Commerce Simulation</div>
+    </div>
+  </footer>
+
+  <!-- Application Logic -->
+  <script src="/static/app.js"></script>
+</body>
+</html>
